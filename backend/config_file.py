@@ -1,7 +1,8 @@
 bootstrap_servers = "localhost:9095"
 
 cfg_producer = {
-    'bootstrap.servers' : bootstrap_servers
+    'bootstrap.servers' : bootstrap_servers,
+    'group.id': 'mnist_group',
 }
 
 cfg_consumer = {
