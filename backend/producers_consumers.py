@@ -2,17 +2,17 @@ import sys
 from pathlib import Path
 import torch
 from confluent_kafka import Producer, Consumer
-import json
+import pickle
 
 from backend.data import load_mnist_data, SimpleCNN, run_train
-from backend.config_file import cfg_producer, cfg_consumer, kafka_topic
+from backend.config_file import cfg_producer, cfg_consumer
 
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(parent_dir))
 
 model_path = "/home/andrey/Projects/HSE/HSE_mag_Data_Mining/BD_HW_Kafka/mnist_cnn.pth"
 
-class producer_mnist:
+class producer_mnist_inference:
     def __init__(self):
         self.producer = Producer(cfg_producer)
 
@@ -28,24 +28,24 @@ class producer_mnist:
             predicted_label = predicted.item()
             print(f'Predicted Label: {predicted_label}')
 
-        message = json.dumps({"predicted_label": predicted_label}) #.encode('utf-8')
-        print(message)
+        message = pickle.dumps(predicted_label)
         self.producer.produce(topic, value=message)
         self.producer.flush()
 
-class consumer_mnist:
+class consumer_mnist_inference:
     def __init__(self):
         self.consumer = Consumer(cfg_consumer)
 
     def receive_from_kafka(self, topic):
         self.consumer.subscribe([topic])
-        msg = self.consumer.poll(timeout=10.0)
+        print(f"Subscribed to topic: {topic}")
+        msg = self.consumer.poll(timeout=30.0)
+
         if msg is None:
             return None
         try:
-            message = json.loads(msg.value())
-            print(message)
-            return message["predicted_label"]
-        except (json.JSONDecodeError, KeyError, UnicodeDecodeError) as e:
+            message = pickle.loads(msg.value())
+            return message
+        except pickle.PickleError as e:
             print(f"Error decoding message: {e}")
             return None
