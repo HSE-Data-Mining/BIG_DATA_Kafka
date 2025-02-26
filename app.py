@@ -29,6 +29,7 @@ def main():
         producer.send_to_kafka(kafka_topic, image_tensor)
 
         prediction_data = consumer.receive_from_kafka(kafka_topic)
+        # if st.button('Predict'):
         if prediction_data is not None:
             if isinstance(prediction_data, int):
                 st.write(f'Predicted Label: {prediction_data}')
