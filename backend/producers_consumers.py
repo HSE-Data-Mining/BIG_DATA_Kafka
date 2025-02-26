@@ -10,7 +10,7 @@ from backend.config_file import cfg_producer, cfg_consumer
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(parent_dir))
 
-model_path = "mnist_cnn.pth"
+model_path = "./outs_and_logs/mnist_cnn.pth"
 
 class producer_mnist_inference:
     def __init__(self):
