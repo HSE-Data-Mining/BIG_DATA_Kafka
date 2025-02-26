@@ -77,7 +77,7 @@ def run_train(train_loader):
 
     train_model(model, train_loader, criterion, optimizer, epochs=1)
 
-    torch.save(model.state_dict(), 'mnist_cnn.pth')
+    torch.save(model.state_dict(), '../outs_and_logs/mnist_cnn.pth')
 
 
 def main():
