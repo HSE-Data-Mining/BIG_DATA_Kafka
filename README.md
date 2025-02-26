@@ -6,7 +6,4 @@ To run code u need write in cli:
 docker compose up --build
 ```
 
-После этого для запуска интерактивного интерфейса app.py
-```
-streamlit run app.py
-```
+После этого для запуска интерактивного интерфейса следует перейти на [streamlit run app.py](http://localhost:8501/).
