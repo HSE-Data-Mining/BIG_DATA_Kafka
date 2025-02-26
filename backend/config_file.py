@@ -1,4 +1,4 @@
-bootstrap_servers = "localhost:9095"
+bootstrap_servers = "kafka-inference:9092"
 
 cfg_producer = {
     'bootstrap.servers' : bootstrap_servers,
